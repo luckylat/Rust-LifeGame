@@ -1,3 +1,6 @@
+use rand::Rng;
+
+
 static dist: [[i32; 2]; 8] = [
     [-1, 0], [-1, -1], [0, -1], [1, -1],
     [1, 0], [1, 1], [0, 1], [-1, 1]
@@ -5,6 +8,7 @@ static dist: [[i32; 2]; 8] = [
 
 pub fn new(sz:usize) -> Vec<Vec<bool>> {
   vec![vec![false; sz]; sz]
+  
 }
 
 pub fn life(sz:usize,stge:&Vec<Vec<bool>>) -> Vec<Vec<bool>>{
@@ -14,9 +18,13 @@ pub fn life(sz:usize,stge:&Vec<Vec<bool>>) -> Vec<Vec<bool>>{
       //4つ調べる
       let mut adj = 0;
       for pos in dist.iter() {
-        let _x = x as i32 + pos[0];
-        let _y = y as i32 + pos[1];
-        if 0 <= _x && _x < sz as i32 -1 && 0 <= _y && _y <= sz as i32 -1 && stge[_x as usize][_y as usize] {
+        let mut _x = x as i32 + pos[0];
+        let mut _y = y as i32 + pos[1];
+        if _x < 0 {_x = sz as i32 - 2;};
+        if _y < 0 {_y = sz as i32 - 2;};
+        if _x >= sz as i32 - 1 {_x = 0;};
+        if _y >= sz as i32 - 1 {_y = 0;};
+        if stge[_x as usize][_y as usize] {
           adj+=1;
         }
         
